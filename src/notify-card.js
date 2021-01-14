@@ -11,6 +11,11 @@ import {
 } from 'lit-element';
 
 export class NotifyCard extends LitElement {
+  constructor() {
+    super()
+    window._ross = this
+    console.log('hass', this.hass)
+  }
   setConfig(config) {
     //   if (!config.entity) {
     //     throw new Error('You need to define an entity');
@@ -31,11 +36,14 @@ export class NotifyCard extends LitElement {
   }
 
   render() {
+    window._ross = this
+    console.log('hass', this.hass)
+
     return html`
       <h1>NUMBER: 9</h1>
       <h1>Lovelace Notify Card</h1>
-      <h2>Other stuff here</h2>
-      <p>Lorem ipsum...</p>
+      <h2>hass</h2>
+      <p>${this.hass}</p>
     `;
   }
 
