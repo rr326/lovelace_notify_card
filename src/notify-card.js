@@ -10,40 +10,46 @@ import {
   internalProperty,
 } from 'lit-element';
 
-@customElement('notify-card')
 export class NotifyCard extends LitElement {
-    set hass(hass) {
-      if (!this.content) {
-        const card = document.createElement('ha-card');
-        card.header = 'Example card';
-        this.content = document.createElement('div');
-        this.content.style.padding = '0 16px 16px';
-        card.appendChild(this.content);
-        this.appendChild(card);
-      }
-  
-      const entityId = this.config.entity;
-      const state = hass.states[entityId];
-      const stateStr = state ? state.state : 'unavailable';
-  
-      this.content.innerHTML = `
-        <h1>Lovelace Notify Card</h1>
-        <h2>Other stuff here</h2>
-        <p>Lorem ipsum...</p>
-      `;
+
+  shouldUpdate(changedProps) {
+    return true // TODO Fix 
+
+    if (!this.config) {
+      return false;
     }
-  
-    setConfig(config) {
+
+    return hasConfigOrEntityChanged(this, changedProps, false);
+  }  
+
+  render() {
+    return html`
+      <h1>NUMBER: 8</h1>
+      <h1>Lovelace Notify Card</h1>
+      <h2>Other stuff here</h2>
+      <p>Lorem ipsum...</p>
+    `;
+  }
+
+  static get styles() {
+    return css`
+    :host {
+      background-color: red;
+    }
+    `
+  }
+
+  setConfig(config) {
     //   if (!config.entity) {
     //     throw new Error('You need to define an entity');
     //   }
-      this.config = config;
-    }
-  
-    // The height of your card. Home Assistant uses this to automatically
-    // distribute all cards over the available columns.
-    getCardSize() {
-      return 3;
-    }
+    this.config = config;
   }
-  
+
+  // The height of your card. Home Assistant uses this to automatically
+  // distribute all cards over the available columns.
+  getCardSize() {
+    return 3;
+  }
+}
+customElements.define('notify-card', NotifyCard);
