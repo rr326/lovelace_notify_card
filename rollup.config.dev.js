@@ -4,6 +4,7 @@ import babel from "rollup-plugin-babel";
 import serve from "rollup-plugin-serve";
 import { terser } from "rollup-plugin-terser";
 import json from '@rollup/plugin-json';
+import css from "rollup-plugin-import-css";
 
 export default {
   input: ["src/notify-card.js"],
@@ -15,6 +16,7 @@ export default {
     resolve(),
     typescript(),
     json(),
+    css(),
     babel({
       exclude: "node_modules/**",
     }),

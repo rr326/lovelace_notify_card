@@ -6,9 +6,11 @@ import {
   CSSResult,
   TemplateResult,
   css,
-  PropertyValues,
   internalProperty,
-} from 'lit-element';
+} from 'lit-element'
+
+import styles from "./css/alertify.css"
+// import 'alertifyjs'
 
 export class NotifyCard extends LitElement {
   static get properties() {
@@ -67,9 +69,10 @@ export class NotifyCard extends LitElement {
     // console.log(`attributes`, ll_notify, att_ar);
     ++this.count;
     console.log(`${this.count} - Rendered`);
+    alertify.notify('Hello')
 
     return html`
-      <h1>NUMBER: 9</h1>
+      <h1>NUMBER: 0</h1>
       <h1>Lovelace Notify Card</h1>
       <h2>Current count: ${this.count}</h2>
       <ul>
@@ -82,16 +85,5 @@ export class NotifyCard extends LitElement {
       </ul>
     `;
   }
-
-  // shouldUpdate(changedProps) {
-  //   console.log(`shouldUpdate: `, changedProps)
-  //   return true; // TODO Fix
-
-  //   if (!this.config) {
-  //     return false;
-  //   }
-
-  //   return hasConfigOrEntityChanged(this, changedProps, false);
-  // }
 }
 customElements.define('notify-card', NotifyCard);
