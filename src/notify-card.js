@@ -108,10 +108,12 @@ setTimeout(async () => {
       ; // Get cancel_fn, but don't need it
     })
     .then(() => {
-      hassConn.sendMessage({
-        type: 'll_notify/message',
-        message: 'test',
-        wait: 10,
-      });
+      window.setInterval(()=>{
+        hassConn.sendMessage({
+          type: 'll_notify/message',
+          message: 'test from frontend',
+          wait: 5,
+        });
+      }, 5000)
     });
 }, 500);
