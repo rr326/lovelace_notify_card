@@ -10,7 +10,7 @@ import {
 } from 'lit-element';
 
 import styles from './css/alertify.css';
-import 'alertifyjs'
+import 'alertifyjs';
 // import alertify from 'alertifyjs';
 
 // export class NotifyCard extends LitElement {
@@ -98,22 +98,25 @@ setTimeout(async () => {
 
   function event_cb(event) {
     console.log('alertify: ', event);
-    alertify.notify(event.data.message, 'success', event.data.wait)
+    alertify.notify(event.data.message, 'success', event.data.wait);
   }
 
   hassConn
-  .subscribeEvents(event_cb, 'll_notify/message')
-  // .subscribeEvents(event_cb)
-  .then(cancel_fn => {
-      ; // Get cancel_fn, but don't need it
+    .subscribeEvents(event_cb, 'll_notify/success')
+    .then(cancel_fn => {
+      // Get cancel_fn, but don't need it
     })
     .then(() => {
-      window.setInterval(()=>{
+      window.setInterval(() => {
         hassConn.sendMessage({
-          type: 'll_notify/message',
-          message: 'test from frontend',
-          wait: 5,
+          type: 'call_service',
+          domain: 'll_notify',
+          service: 'success',
+          service_data: {
+            message: 'TEST: from FRONTEND',
+            wait: 5,
+          },
         });
-      }, 5000)
+      }, 5000);
     });
 }, 500);
