@@ -5,6 +5,8 @@ import serve from "rollup-plugin-serve";
 import { terser } from "rollup-plugin-terser";
 import json from '@rollup/plugin-json';
 import css from "rollup-plugin-import-css";
+import commonjs from 'rollup-plugin-commonjs';
+
 
 export default {
   input: ["src/notify-card.js"],
@@ -13,13 +15,17 @@ export default {
     format: "es",
   },
   plugins: [
-    resolve(),
+    resolve(), 
     typescript(),
     json(),
     css(),
     babel({
       exclude: "node_modules/**",
     }),
+    commonjs({
+      esmExternals: true,
+      transformMixedEsModules: true
+    }),       
     terser(),
     serve({
       contentBase: "./dist",
