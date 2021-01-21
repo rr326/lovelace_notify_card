@@ -1,8 +1,14 @@
 import './css/alertify.css';
-import alertify from 'alertifyjs';
-import merge from 'lodash.merge';
+
 import { doSetDefaults } from './setDefaults';
-import { doNotifySuccess } from './notify';
+import {
+  doNotifySuccess,
+  doNotifyError,
+  doNotifyDismissAll,
+  doNotifyWarning,
+  doNotifyMessage,
+  doNotify,
+} from './notify';
 import * as debug from './debug';
 
 console.log('notify-frontend loaded.');
@@ -22,9 +28,14 @@ hassConn
   })
   .then(() => {
     hassConn.subscribeEvents(doNotifySuccess, 'll_notify/success');
+    hassConn.subscribeEvents(doNotifyError, 'll_notify/error');
+    hassConn.subscribeEvents(doNotifyWarning, 'll_notify/warning');
+    hassConn.subscribeEvents(doNotifyMessage, 'll_notify/message');
+    hassConn.subscribeEvents(doNotify, 'll_notify/notify');
+    hassConn.subscribeEvents(doNotifyDismissAll, 'll_notify/dismiss_all');
   })
   .then(() => {
     // debugging
     debug.set_globals();
-    if (false) debug.do_5sec_test();
+    // debug.do_5sec_test();
   });
