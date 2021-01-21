@@ -4,21 +4,24 @@ import babel from "rollup-plugin-babel";
 import serve from "rollup-plugin-serve";
 import { terser } from "rollup-plugin-terser";
 import json from '@rollup/plugin-json';
-import css from "rollup-plugin-import-css";
 import commonjs from 'rollup-plugin-commonjs';
+import postcss from 'rollup-plugin-postcss'
 
 
 export default {
-  input: ["src/notify-card.js"],
+  input: ["src/notify-global-main.js"],
   output: {
     dir: "./dist",
     format: "es",
+    assetFileNames: "[name]-[hash][extname]",
   },
   plugins: [
     resolve(), 
     typescript(),
     json(),
-    css(),
+    postcss({
+      plugins: []
+    }),
     babel({
       exclude: "node_modules/**",
     }),
@@ -26,7 +29,6 @@ export default {
       esmExternals: true,
       transformMixedEsModules: true
     }),       
-    terser(),
     serve({
       contentBase: "./dist",
       host: "0.0.0.0",

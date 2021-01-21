@@ -1,5 +1,5 @@
-import styles from './css/alertify.css';
-import 'alertifyjs';
+import './css/alertify.css';
+import alertify from 'alertifyjs';
 import merge from 'lodash.merge'
 
 console.log('notify-frontend loaded.');
@@ -31,7 +31,7 @@ function do_5sec_test() {
  * Callbacks
  */
 function doNotifySuccess(event) {
-  console.log('alertify: ', event);
+  console.log('doNotifySuccess: ', event);
   if (event.data.wait == null) {
     alertify.notify(event.data.message, 'success');
   } else {
@@ -58,7 +58,7 @@ hassConn
     });
   })
   .then(() => {
-    hassConn.subscribeEvents(doNotifySuccess, 'll_notify/success').then(cancel_fn => {});
+    hassConn.subscribeEvents(doNotifySuccess, 'll_notify/success');
   })
   .then(() => {
     if (debug) {
