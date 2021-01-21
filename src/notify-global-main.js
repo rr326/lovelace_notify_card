@@ -1,49 +1,12 @@
 import './css/alertify.css';
 import alertify from 'alertifyjs';
-import merge from 'lodash.merge'
+import merge from 'lodash.merge';
+import { doSetDefaults } from './setDefaults';
+import { doNotifySuccess } from './notify';
+import * as debug from './debug';
 
 console.log('notify-frontend loaded.');
 let hassConn = document.querySelector('home-assistant').hass.connection;
-
-/**
- * Debugging code
- */
-let debug = false;
-window.hass = document.querySelector('home-assistant').hass;
-window.hassConn = hassConn;
-
-function do_5sec_test() {
-  window.setInterval(() => {
-    hassConn.sendMessage({
-      type: 'call_service',
-      domain: 'll_notify',
-      service: 'success',
-      service_data: {
-        message: 'TEST: from FRONTEND',
-        wait: 5,
-      },
-    });
-  }, 5000);
-}
-
-/**
- *
- * Callbacks
- */
-function doNotifySuccess(event) {
-  console.log('doNotifySuccess: ', event);
-  if (event.data.wait == null) {
-    alertify.notify(event.data.message, 'success');
-  } else {
-    alertify.notify(event.data.message, 'success', event.data.wait);
-  }
-}
-
-function doSetDefaults(event) {
-  // alertify.defaults = { ...alertify.defaults, ...event.data };
-  alertify.defaults = merge(alertify.defaults, event.data);
-}
-
 
 /**
  * Initialize alertify & websocket listeners
@@ -61,7 +24,7 @@ hassConn
     hassConn.subscribeEvents(doNotifySuccess, 'll_notify/success');
   })
   .then(() => {
-    if (debug) {
-      do_5sec_test();
-    }
+    // debugging
+    debug.set_globals();
+    if (false) debug.do_5sec_test();
   });
