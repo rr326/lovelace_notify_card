@@ -1,32 +1,12 @@
 import alertify from 'alertifyjs';
 window.alertify = alertify;
 
-export function doNotifySuccess(event) {
-  event.data.type = 'success';
-  doNotify(event);
-}
-
-export function doNotifyError(event) {
-  event.data.type = 'error';
-  doNotify(event);
-}
-
-export function doNotifyMessage(event) {
-  event.data.type = '';
-  doNotify(event);
-}
-
-export function doNotifyWarning(event) {
-  event.data.type = 'warning';
-  doNotify(event);
-}
-
 export function doNotifyDismissAll() {
   alertify.dismissAll();
 }
 
-export function doNotify(event) {
-  let type = event.data.type;
+export function doNotify(event, event_type) {
+  let type = event_type ? event_type : event.data.type;
   if (typeof type === 'undefined') {
     console.error('Invalid usage: doNotify requires a type or empty string.');
     return;
@@ -44,3 +24,14 @@ export function doNotify(event) {
   alertify.notify(message, type, wait);
 }
 
+export function subscribeNotifyEvents(hassConn) {
+  hassConn.subscribeEvents(doNotifyDismissAll, 'll_notify/dismiss_all');
+  hassConn.subscribeEvents(doNotify, 'll_notify/notify');
+
+  let wsEvents = ['success', 'error', 'warning', 'message'];
+  wsEvents.forEach(eventName => {
+    hassConn.subscribeEvents(event => {
+      return doNotify(event, eventName);
+    }, `ll_notify/${eventName}`);
+  });
+}

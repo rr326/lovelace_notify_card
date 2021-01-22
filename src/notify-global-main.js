@@ -1,14 +1,7 @@
 import './css/alertify.css';
 
 import { doSetDefaults } from './setDefaults';
-import {
-  doNotifySuccess,
-  doNotifyError,
-  doNotifyDismissAll,
-  doNotifyWarning,
-  doNotifyMessage,
-  doNotify,
-} from './notify';
+import { subscribeNotifyEvents } from './notify';
 import * as debug from './debug';
 
 console.log('notify-frontend loaded.');
@@ -27,12 +20,7 @@ hassConn
     });
   })
   .then(() => {
-    hassConn.subscribeEvents(doNotifySuccess, 'll_notify/success');
-    hassConn.subscribeEvents(doNotifyError, 'll_notify/error');
-    hassConn.subscribeEvents(doNotifyWarning, 'll_notify/warning');
-    hassConn.subscribeEvents(doNotifyMessage, 'll_notify/message');
-    hassConn.subscribeEvents(doNotify, 'll_notify/notify');
-    hassConn.subscribeEvents(doNotifyDismissAll, 'll_notify/dismiss_all');
+    subscribeNotifyEvents(hassConn);
   })
   .then(() => {
     // debugging
