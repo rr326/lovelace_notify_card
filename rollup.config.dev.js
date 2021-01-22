@@ -13,11 +13,11 @@ export default {
   output: {
     dir: './dist',
     format: 'es',
-    assetFileNames: '[name]-[hash][extname]',
+    sourceMap: true
   },
   plugins: [
     resolve({
-      preferBuiltins: true
+      preferBuiltins: true,
     }),
     typescript(),
     json(),
