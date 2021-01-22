@@ -1,41 +1,45 @@
-import resolve from "rollup-plugin-node-resolve";
-import typescript from "rollup-plugin-typescript2";
-import babel from "rollup-plugin-babel";
-import serve from "rollup-plugin-serve";
-import { terser } from "rollup-plugin-terser";
+import resolve from 'rollup-plugin-node-resolve';
+import globals from 'rollup-plugin-node-globals';
+import builtins from 'rollup-plugin-node-builtins';
+import typescript from 'rollup-plugin-typescript2';
+import babel from 'rollup-plugin-babel';
+import serve from 'rollup-plugin-serve';
 import json from '@rollup/plugin-json';
 import commonjs from 'rollup-plugin-commonjs';
-import postcss from 'rollup-plugin-postcss'
-
+import postcss from 'rollup-plugin-postcss';
 
 export default {
-  input: ["src/notify-global-main.js"],
+  input: ['src/notify-global-main.js'],
   output: {
-    dir: "./dist",
-    format: "es",
-    assetFileNames: "[name]-[hash][extname]",
+    dir: './dist',
+    format: 'es',
+    assetFileNames: '[name]-[hash][extname]',
   },
   plugins: [
-    resolve(), 
+    resolve({
+      preferBuiltins: true
+    }),
     typescript(),
     json(),
     postcss({
-      plugins: []
+      plugins: [],
     }),
     babel({
-      exclude: "node_modules/**",
+      exclude: 'node_modules/**',
     }),
     commonjs({
       esmExternals: true,
-      transformMixedEsModules: true
-    }),       
+      transformMixedEsModules: true,
+    }),
+    globals(),
+    builtins(),
     serve({
-      contentBase: "./dist",
-      host: "0.0.0.0",
+      contentBase: './dist',
+      host: '0.0.0.0',
       port: 5000,
       allowCrossOrigin: true,
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Origin': '*',
       },
     }),
   ],

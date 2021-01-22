@@ -1,10 +1,21 @@
 import alertify from 'alertifyjs';
-window.alertify = alertify;
+import {handleActions} from './actions'
 
 export function doNotifyDismissAll() {
   alertify.dismissAll();
 }
 
+/**
+ * 
+ * @param {*} event 
+ *  event.data:
+ *      message:     [required] <string>
+ *      type:        [optional] "success"|"error"|<custom string>
+ *      wait:        [optional] <number>
+ *      after_close: [optional] ActionsList
+ * @param {*} event_type
+ *  [optional] "success"|"error"|<custom string>
+ */
 export function doNotify(event, event_type) {
   let type = event_type ? event_type : event.data.type;
   if (typeof type === 'undefined') {
@@ -20,8 +31,18 @@ export function doNotify(event, event_type) {
     message = 'Invalid usage: No message set!';
   }
 
+  function callback() {
+    if (! event.data.after_close) {
+        console.log('Notify - no callback - exiting')
+        return
+    } else {
+        console.log('Notify - About to call after_close callback')
+        return handleActions(event.data.after_close)
+    }
+  }
+
   console.log('doNotify', message, type, wait);
-  alertify.notify(message, type, wait);
+  alertify.notify(message, type, wait, callback);
 }
 
 export function subscribeNotifyEvents(hassConn) {

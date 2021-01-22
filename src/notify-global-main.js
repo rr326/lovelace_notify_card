@@ -4,6 +4,9 @@ import { doSetDefaults } from './setDefaults';
 import { subscribeNotifyEvents } from './notify';
 import * as debug from './debug';
 
+import alertify from 'alertifyjs';
+window.alertify = alertify; // Needed as a window global
+
 console.log('notify-frontend loaded.');
 let hassConn = document.querySelector('home-assistant').hass.connection;
 
