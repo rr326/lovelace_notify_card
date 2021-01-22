@@ -33,15 +33,12 @@ export function doNotify(event, event_type) {
 
   function callback() {
     if (! event.data.after_close) {
-        console.log('Notify - no callback - exiting')
         return
     } else {
-        console.log('Notify - About to call after_close callback')
         return handleActions(event.data.after_close)
     }
   }
 
-  console.log('doNotify', message, type, wait);
   alertify.notify(message, type, wait, callback);
 }
 

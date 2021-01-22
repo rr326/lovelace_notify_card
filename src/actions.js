@@ -89,7 +89,7 @@ function _handleAction(hassConn, config) {
   try {
     let action = config.action;
 
-    console.log(`notify Action called`, action, config);
+    // console.log(`notify Action called`, action, config);
     switch (action) {
       case 'call_service':
         hassConn
@@ -98,9 +98,6 @@ function _handleAction(hassConn, config) {
             domain: config.domain,
             service: config.service,
             service_data: config.service_data,
-          })
-          .then(results => {
-            console.log('SUCCESS: call_service', results);
           })
           .catch(err => {
             console.error('FAIL: call_service', err);
@@ -116,9 +113,6 @@ function _handleAction(hassConn, config) {
               event_name: config.event_name,
               event_data: config.event_data,
             },
-          })
-          .then(results => {
-            console.log('SUCCESS: fire_event', results);
           })
           .catch(err => {
             console.error('FAIL: fire_event', err);
